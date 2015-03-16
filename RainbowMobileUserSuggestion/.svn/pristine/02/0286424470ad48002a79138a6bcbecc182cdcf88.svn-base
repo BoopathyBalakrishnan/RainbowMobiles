@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">RAINBOWMobiles Compliant App</string>
+    <!-- Components Names -->
+    <string name="username">Enter your Name</string>
+    <string name="userphoneno">Enter your PhoneNo</string>
+    <string name="uservoiceno">Enter your InvoiceNo</string>
+    <string name="uservoicedate">Enter your InvoiceDate</string>
+    <string name="sendBtn">Register Compliant</string>
+    <string name="msg">Compliant in detail..</string>
+</resources>

@@ -1,0 +1,63 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity" >
+
+    <Button
+        android:id="@+id/BtnSubmit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dip"
+        android:text="@string/sendBtn" />
+
+    <EditText
+        android:id="@+id/userPhNo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/userName"
+        android:layout_marginTop="14dp"
+        android:ems="10"
+        android:hint="@string/userphoneno" />
+
+    <EditText
+        android:id="@+id/userInvoiceNo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/userPhNo"
+        android:layout_marginTop="14dp"
+        android:ems="10"
+        android:hint="@string/uservoiceno" />
+
+    <EditText
+        android:id="@+id/userDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/userInvoiceNo"
+        android:layout_marginTop="14dp"
+        android:ems="10"
+        android:hint="@string/uservoicedate" />
+
+    <EditText
+        android:id="@+id/message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/userDate"
+        android:layout_marginTop="14dp"
+        android:ems="10"
+        android:hint="@string/msg"
+        android:inputType="textMultiLine"
+        android:lines="4" />
+
+    <EditText
+        android:id="@+id/userName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="24dp"
+        android:ems="10"
+        android:hint="@string/username" />
+
+</RelativeLayout>

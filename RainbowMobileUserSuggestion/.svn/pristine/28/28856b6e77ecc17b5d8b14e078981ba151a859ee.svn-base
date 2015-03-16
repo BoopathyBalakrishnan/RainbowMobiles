@@ -1,0 +1,8 @@
+package com.rainbowmobiles.suggest;
+
+public class ApplicationConstants {
+
+	public static final String GMAIL_SESSION_USERNAME = "therainbowmobiles.ccare@gmail.com";
+	public static final String GMAIL_SESSION_PASSWORD = "8148896662";
+	public static final String GMAIL_COMPLIANT_EMAIL_TO = "therainbowmobiles.ccare@gmail.com";
+}

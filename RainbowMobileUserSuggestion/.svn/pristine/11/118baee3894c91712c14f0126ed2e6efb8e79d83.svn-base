@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/bg"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <ImageView
+        android:id="@+id/splash_frm_splashscreenimg"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_gravity="center"
+        android:contentDescription="empty"
+        android:scaleType="centerCrop"
+        android:src="@drawable/bg" />
+
+    <RelativeLayout
+        android:id="@+id/bg1"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:contentDescription="empty"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_launcher" />
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/imageView1"
+            android:layout_centerInParent="true"
+            android:includeFontPadding="false"
+            android:text="@string/appPurpose" />
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:fillViewport="true" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <RelativeLayout
+                android:id="@+id/splash_main_layout"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:visibility="visible" >
+
+                <EditText
+                    android:id="@+id/userName"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginLeft="30.0dip"
+                    android:layout_marginRight="30.0dip"
+                    android:background="@drawable/whitebuttongradient"
+                    android:hint="@string/username"
+                    android:inputType="text"
+                    android:maxLength="20"
+                    android:digits="QWERTZUIOPASDFGHJKLYXCVBNMqwertzuiopasdfghjklyxcvbnm"
+                    android:padding="10dp"
+                    android:singleLine="true"
+                    android:textColor="#ff666666" />
+
+                <EditText
+                    android:id="@+id/userPhNo"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/userName"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginLeft="30.0dip"
+                    android:layout_marginRight="30.0dip"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/whitebuttongradient"
+                    android:digits="1234567890"
+                    android:hint="@string/userphoneno"
+                    android:imeOptions="actionGo"
+                    android:inputType="number"
+                    android:maxLength="10"
+                    android:padding="10dp"
+                    android:singleLine="true"
+                    android:textColor="#ff666666" />
+
+                <EditText
+                    android:id="@+id/userInvoiceNo"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/userPhNo"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginLeft="30.0dip"
+                    android:layout_marginRight="30.0dip"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/whitebuttongradient"
+                    android:digits="1234567890"
+                    android:hint="@string/uservoiceno"
+                    android:imeOptions="actionGo"
+                    android:inputType="number"
+                    android:maxLength="5"
+                    android:padding="10dp"
+                    android:singleLine="true"
+                    android:textColor="#ff666666" />
+
+                <EditText
+                    android:id="@+id/userDate"
+                    android:layout_width="220dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/userInvoiceNo"
+                    android:layout_marginLeft="30.0dip"
+                    android:layout_marginRight="30.0dip"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/whitebuttongradient"
+                    android:clickable="false"
+                    android:cursorVisible="false"
+                    android:hint="@string/userDate"
+                    android:imeOptions="actionGo"
+                    android:inputType="date"
+                    android:padding="10dp"
+                    android:focusable="false"
+                    android:singleLine="true"
+                    android:textColor="#ff666666" />
+
+                <EditText
+                    android:id="@+id/message"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/userDate"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginLeft="30.0dip"
+                    android:layout_marginRight="30.0dip"
+                    android:layout_marginTop="5dp"
+                    android:imeOptions="actionGo"
+                    android:background="@drawable/whitebuttongradient"
+                    android:hint="@string/msg"
+                    android:inputType="textMultiLine"
+                    android:lines="6"
+                    android:padding="10dp"
+                    android:singleLine="false"
+                    android:textColor="#ff666666" />
+
+                <ImageButton
+                    android:id="@+id/datePicker"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_alignRight="@+id/userInvoiceNo"
+                    android:layout_alignTop="@+id/userDate"
+                    android:contentDescription="@string/selectdate"
+                    android:cropToPadding="true"
+                    android:src="@drawable/calendar_icon" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/splash_main_initial_layout"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="visible" >
+
+                <Button
+                    android:id="@+id/sendbtn"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="15.0sp"
+                    android:layout_marginLeft="30.0dip"
+                    android:layout_marginRight="30.0dip"
+                    android:layout_marginTop="5.0sp"
+                    android:background="@drawable/orangebuttongradient"
+                    android:padding="10dp"
+                    android:text="@string/sendBtn"
+                    android:textColor="#ffffffff"
+                    android:textSize="12sp" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>

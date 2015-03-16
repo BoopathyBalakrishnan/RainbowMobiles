@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Rainbow Mobiles Compliants</string>
+    <!-- Components Names -->
+    <string name="appPurpose">Register your compliant. We will get back in 3 days.</string>
+    <string name="username">Your Name</string>
+    <string name="userphoneno">Your PhoneNo</string>
+    <string name="uservoiceno">Your InvoiceNo</string>
+    <string name="sendBtn">Register Compliant</string>
+    <string name="userDate">Invoice Date</string>
+    <string name="msg">Issue summary in detail</string>
+
+</resources>
