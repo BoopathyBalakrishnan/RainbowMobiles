@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg" >
+
+    <RelativeLayout
+        android:id="@+id/error_screen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:id="@+id/success_screen_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_margin="35.0dip"
+            android:background="@drawable/linear_round_border"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:padding="12dp" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/errormsg"
+                android:textColor="#FF0000" />
+
+           
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/errorCloseBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignRight="@+id/success_screen_layout"
+            android:layout_alignTop="@+id/success_screen_layout"
+            android:layout_marginRight="-15.0dip"
+            android:layout_marginTop="-15.0dip"
+            android:background="@null"
+            android:src="@drawable/popup_close" />
+    </RelativeLayout>
+
+</ScrollView>

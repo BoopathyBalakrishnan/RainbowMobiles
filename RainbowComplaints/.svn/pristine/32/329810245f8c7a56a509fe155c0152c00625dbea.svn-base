@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Rainbow Complaints</string>
+    <!-- Components Names -->
+    <string name="appPurpose">Register your Complaint. We will resolve in 5 days.</string>
+    <string name="username">Your Name</string>
+    <string name="userphoneno">Your PhoneNo</string>
+    <string name="uservoiceno">Your InvoiceNo</string>
+    <string name="sendBtn">Register Complaint</string>
+    <string name="userDate">Invoice Date</string>
+    <string name="msg">Issue in detail</string>
+    <string name="successmsg">Your Complaint Registered with us Successfully!</string>
+    <string name="errormsg">Please Check Internet Connection and try again!</string>
+    <string name="selectdate">Select Date</string>
+
+</resources>
