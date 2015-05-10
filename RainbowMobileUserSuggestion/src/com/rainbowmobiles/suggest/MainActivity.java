@@ -1,5 +1,6 @@
 package com.rainbowmobiles.suggest;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import javax.mail.Message;
@@ -11,7 +12,10 @@ import javax.mail.internet.MimeMessage;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.database.Cursor;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -22,6 +26,11 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
+import android.widget.Toast;
+
+import com.rainbowmobiles.databasehelpers.DBAdapter;
+import com.rainbowmobiles.databasehelpers.DataBaseHelper;
+import com.rainbowmobiles.databasehelpers.MailModel;
 
 public class MainActivity extends Activity {
 
@@ -41,7 +50,10 @@ public class MainActivity extends Activity {
 	ScrollView userInputPage;
 	RelativeLayout errorPage;
 	ImageButton closeBtn;
-
+	ProgressDialog pDialog;
+	DataBaseHelper mDBhelper;
+	DBAdapter mDBAdapter;
+	MyGmailSession myGmailSession;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -51,68 +63,26 @@ public class MainActivity extends Activity {
 		userInputPage.setVisibility(View.VISIBLE);
 		errorPage.setVisibility(View.GONE);
 		Button login = (Button) findViewById(R.id.sendbtn);
+		copyMyDatabase();
 		login.setOnClickListener(new View.OnClickListener() {
 
 			public void onClick(View arg0) {
-				String inputUserName = userName.getText().toString();
-				String inputPhoneNo = userPhoneNo.getText().toString();
-				inputDate = date.getText().toString();
-				String inputInvoiceNo = invoiceNo.getText().toString();
-				String inputIssueDetails = msg.getText().toString();
-				try {
-					Message message = new MimeMessage(MyGmailSession
-							.getMyGmailSession());
-					// String userEmail =
-					// UserEmailFetcher.getEmail(getApplicationContext());
-					message.setFrom(new InternetAddress("urnanjun@gmail.com"));
-					// message.setFrom(new InternetAddress(userEmail));
-					message.setRecipients(
-							Message.RecipientType.TO,
-							InternetAddress
-									.parse(ApplicationConstants.GMAIL_COMPLIANT_EMAIL_TO));
+				checkInternetConnection();
 
-					StringBuilder emailSubject = new StringBuilder(
-							"Compliant - ");
-					emailSubject.append("Name::" + inputUserName + ", ");
-					emailSubject.append("Phone No::" + inputPhoneNo + ", ");
-					emailSubject.append("Date::" + inputDate + ", ");
-					emailSubject.append("Invoice No::" + inputInvoiceNo);
-					message.setSubject(emailSubject.toString());
-					StringBuilder emailMessage = new StringBuilder(
-							"<html><body style=\"font-family:sans-serif Arial\">");
-					emailMessage
-							.append("<div style=\"font-weight:normal; font-size:100%\">");
-					emailMessage.append("Name::" + inputUserName + "<br/> ");
-					emailMessage.append("Phone No::" + inputPhoneNo + "<br/> ");
-					emailMessage.append("Date::" + inputDate + "<br/> ");
-					emailMessage.append("Invoice No::" + inputInvoiceNo
-							+ "<br/> ");
-					emailMessage.append("Issue Summary::" + inputIssueDetails
-							+ "<br/><br/><br/> ");
-					emailMessage.append("</div>");
-					emailMessage
-							.append("<div style=\"font-weight:normal; font-size:75%\">");
-					emailMessage.append("Thanks," + "<br/> ");
-					emailMessage.append("Issue Reported from AndroidApp");
-					emailMessage.append("</div>");
-					emailMessage.append("</body></html>");
-					message.setContent(emailMessage.toString(),
-							"text/html; charset=utf-8");
+			}
 
-					Transport.send(message);
+			/**
+ * 
+ */
+			private void checkInternetConnection() {
 
-					Intent invokeSuccessActivity = new Intent(
-							getApplicationContext(), SuccessActivity.class);
-					startActivity(invokeSuccessActivity);
+				if (Utils.checkInternetConnection(MainActivity.this)) {
+					new FetchData().execute();
 
-				} catch (MessagingException e) {
-
-					/*
-					 * e.printStackTrace(); throw new RuntimeException(e);
-					 */
-					userInputPage.setVisibility(View.GONE);
-					errorPage.setVisibility(View.VISIBLE);
-
+				} else {
+					Toast.makeText(MainActivity.this,
+							"Check Network Connection", Toast.LENGTH_LONG)
+							.show();
 				}
 
 			}
@@ -120,9 +90,30 @@ public class MainActivity extends Activity {
 	}
 
 	/**
+ * 
+ */
+	private void copyMyDatabase() {
+		try {
+            mDBhelper.createDataBase();
+        } catch (Exception e) {
+            throw new Error("Error in copy database");
+        }
+
+        try {
+            mDBhelper.openDataBase();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        mDBhelper.close();
+    }
+
+	/**
 	 * 
 	 */
 	private void initWidgets() {
+		mDBhelper = new DataBaseHelper(getApplicationContext());
+		mDBAdapter = new DBAdapter(getApplicationContext());
+		myGmailSession=new MyGmailSession();
 		userInputPage = (ScrollView) findViewById(R.id.userInputs);
 		errorPage = (RelativeLayout) findViewById(R.id.error_screen);
 		splashLayout = (ImageView) findViewById(R.id.splash_frm_splashscreenimg);
@@ -169,4 +160,92 @@ public class MainActivity extends Activity {
 					+ selectedYear);
 		}
 	};
+
+	/**
+ * 
+ */
+	private class FetchData extends AsyncTask<String, String, Void> {
+		
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+			pDialog = new ProgressDialog(MainActivity.this);
+			pDialog.setMessage("Registering Your Complaint");
+			pDialog.setIndeterminate(false);
+			pDialog.setCancelable(true);
+			pDialog.show();
+		}
+
+		@Override
+		protected Void doInBackground(String... myname) {
+			String inputUserName = userName.getText().toString();
+			String inputPhoneNo = userPhoneNo.getText().toString();
+			inputDate = date.getText().toString();
+			String inputInvoiceNo = invoiceNo.getText().toString();
+			String inputIssueDetails = msg.getText().toString();
+			try {
+				Message message = new MimeMessage(
+						myGmailSession.getMyGmailSession());
+				// String userEmail =
+				// UserEmailFetcher.getEmail(getApplicationContext());
+				message.setFrom(new InternetAddress("urnanjun@gmail.com"));
+				// message.setFrom(new InternetAddress(userEmail));
+				message.setRecipients(Message.RecipientType.TO, InternetAddress
+						.parse(ApplicationConstants.GMAIL_COMPLIANT_EMAIL_TO));
+
+				StringBuilder emailSubject = new StringBuilder("Compliant - ");
+				emailSubject.append("Name::" + inputUserName + ", ");
+				emailSubject.append("Phone No::" + inputPhoneNo + ", ");
+				emailSubject.append("Date::" + inputDate + ", ");
+				emailSubject.append("Invoice No::" + inputInvoiceNo);
+				message.setSubject(emailSubject.toString());
+				StringBuilder emailMessage = new StringBuilder(
+						"<html><body style=\"font-family:sans-serif Arial\">");
+				emailMessage
+						.append("<div style=\"font-weight:normal; font-size:100%\">");
+				emailMessage.append("Name::" + inputUserName + "<br/> ");
+				emailMessage.append("Phone No::" + inputPhoneNo + "<br/> ");
+				emailMessage.append("Date::" + inputDate + "<br/> ");
+				emailMessage.append("Invoice No::" + inputInvoiceNo + "<br/> ");
+				emailMessage.append("Issue Summary::" + inputIssueDetails
+						+ "<br/><br/><br/> ");
+				emailMessage.append("</div>");
+				emailMessage
+						.append("<div style=\"font-weight:normal; font-size:75%\">");
+				emailMessage.append("Thanks," + "<br/> ");
+				emailMessage.append("Issue Reported from AndroidApp");
+				emailMessage.append("</div>");
+				emailMessage.append("</body></html>");
+				message.setContent(emailMessage.toString(),
+						"text/html; charset=utf-8");
+
+				Transport.send(message);
+
+				Intent invokeSuccessActivity = new Intent(
+						getApplicationContext(), SuccessActivity.class);
+				startActivity(invokeSuccessActivity);
+
+			} catch (MessagingException e) {
+
+				e.printStackTrace();
+				throw new RuntimeException(e);
+
+				/*
+				 * userInputPage.setVisibility(View.GONE);
+				 * errorPage.setVisibility(View.VISIBLE);
+				 */
+
+			}
+
+			return null;
+		}
+
+		protected void onPostExecute(String myname) {
+			pDialog.dismiss();
+
+		}
+
+	}
+
+	
 }

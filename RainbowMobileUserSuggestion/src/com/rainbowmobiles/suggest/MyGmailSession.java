@@ -7,17 +7,22 @@ import java.util.Properties;
 
 import javax.mail.Session;
 
+import com.rainbowmobiles.databasehelpers.MailModel;
+
 /**
  * @author Nanjundan
  * 
  */
 public class MyGmailSession {
 
+	MailModel info = new MailModel();
+
 	/**
 	 * Method to get the MyGmail session to send an email
+	 * 
 	 * @return
 	 */
-	public static Session getMyGmailSession() {
+	public  Session getMyGmailSession() {
 		Properties props = new Properties();
 		props.put("mail.smtp.host", "smtp.gmail.com");
 		props.put("mail.smtp.socketFactory.port", "465");
@@ -28,9 +33,8 @@ public class MyGmailSession {
 		Session session = Session.getDefaultInstance(props,
 				new javax.mail.Authenticator() {
 					protected javax.mail.PasswordAuthentication getPasswordAuthentication() {
-						return new javax.mail.PasswordAuthentication(
-								ApplicationConstants.GMAIL_SESSION_USERNAME,
-								ApplicationConstants.GMAIL_SESSION_PASSWORD);
+						return new javax.mail.PasswordAuthentication(info
+								.getUserName(), info.getPassword());
 					}
 				});
 		return session;
